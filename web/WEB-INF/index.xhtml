@@ -8,6 +8,7 @@
         <title>Main Form</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="css/main.css"/>
         <script src="js/spanish_translation_pf.js" />
         <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
     </h:head>   
@@ -22,57 +23,66 @@
                     </div>
                 </div>
                 
-                <div class="ui-g-12 ui-md-2">
-                    <div class="ui-inputgroup">
-                        <span class="ui-inputgroup-addon"><i class="fa fa-clock-o"></i></span>
-                        <p:inputText placeholder="Hora"/>
+                    <div class="ui-g-12 ui-md-2">
+                        <div class="ui-inputgroup">
+                            <span class="ui-inputgroup-addon"><i class="fa fa-clock-o"></i></span>
+                            <p:inputText placeholder="Hora"/>
+                        </div>
                     </div>
-                </div>
                 
-                <div class="ui-g-12 ui-md-4">
-                    <div class="ui-inputgroup">
-                        <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
-                        <p:inputText placeholder="Atiende"/>
+                    <div class="ui-g-12 ui-md-4">
+                        <div class="ui-inputgroup">
+                            <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+                            <p:inputText placeholder="Atiende"/>
+                        </div>
                     </div>
-                </div>
 
-                <div class="ui-g-12 ui-md-3">
-                    <div class="ui-inputgroup">
-                    <p:inputText placeholder="Registro"/>
+                    <div class="ui-g-12 ui-md-3">
+                        <div class="ui-inputgroup">
+                            <span class="ui-inputgroup-addon"><i class="fa fa-sticky-note"></i></span>
+                            <p:inputText placeholder="Registro"/>
+                        </div>
+                    </div>         
+            </div>
+            <p:panel header="Tipo de atención" class="margin_panel">
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-12 ui-md-7">
+                        <p:selectOneButton value="#{selectOneView.option}">
+                            <f:selectItem itemLabel="Asegurado" itemValue="asegurado"/>
+                            <f:selectItem itemLabel="Pub. en gral" itemValue="" />
+                            <f:selectItem itemLabel="Garantia" itemValue="" />
+                            <f:selectItem itemLabel="Cortesia" itemValue="cortesia" />
+                        </p:selectOneButton>
                     </div>
-                </div>         
-            </div>
-            
-            <h4>Tipo de atención</h4>
-            
-            <div class="ui-g ui-fluid">
-                <div class="ui-g-12 ui-md-6">
-                    <p:selectOneButton value="#{selectOneView.option}">
-                        <f:selectItem itemLabel="Asegurado" itemValue="asegurado"/>
-                        <f:selectItem itemLabel="Pub. en gral" itemValue="" />
-                        <f:selectItem itemLabel="Garantia" itemValue="" />
-                        <f:selectItem itemLabel="Cortesia" itemValue="cortesia" />
-                    </p:selectOneButton>
+                    <div class="ui-g-12 ui-md-2">
+                        <p:inputText placeholder="REF"/>
+                    </div>
+                    <div class="ui-g-12 ui-md-2">
+                        <p:inputText placeholder="AUT"/>
+                    </div>
                 </div>
-                <div class="ui-g-12 ui-md-2">
-                    <p:inputText placeholder="REF"/>
-                </div>
-                <div class="ui-g-12 ui-md-2">
-                    <p:inputText placeholder="AUT"/>
-                </div>
-            </div>
-            
-            <h4>Vehiculo</h4>
-            
-            <div class="ui-g ui-fluid">
+            </p:panel>
+            <p:panel header="Vehiculo" class="margin_panel">
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-12 ui-md-3">
+                        <p:selectOneMenu id="Marca" value="#{dropdownView.marca}">
+                            <p:ajax listener="#{dropdownView.onMarcaChange}" update="Modelo" />
+                            <f:selectItem itemLabel="Marca" itemValue="" noSelectionOption="true" />
+                            <f:selectItems value="#{dropdownView.marcas}" />
+                        </p:selectOneMenu>
+                    </div>
                 <div class="ui-g-12 ui-md-3">
-                    <p:inputText placeholder="Marca"/>
+                    <p:selectOneMenu id="Modelo" value="#{dropdownView.modelo}">
+                        <p:ajax listener="#{dropdownView.onModeloChange()}" update="Anio"/>
+                        <f:selectItem itemLabel="Modelo" itemValue="" noSelectionOption="true" />
+                        <f:selectItems value="#{dropdownView.modelos}" />
+                    </p:selectOneMenu>
                 </div>
                 <div class="ui-g-12 ui-md-3">
-                    <p:inputText placeholder="Modelo"/>
-                </div>
-                <div class="ui-g-12 ui-md-3">
-                    <p:inputText placeholder="Año"/>
+                    <p:selectOneMenu id="Anio" value="#{dropdownView.anio}">
+                        <f:selectItem itemLabel="Año" itemValue="" noSelectionOption="true" />
+                        <f:selectItems value="#{dropdownView.modelos}" />
+                    </p:selectOneMenu>
                 </div>
                 <div class="ui-g-12 ui-md-3">
                     <p:inputText placeholder="Placas"/>
@@ -82,6 +92,12 @@
                     <p:inputText/>
                 </div>
             </div>
+                
+            </p:panel>
+           
+
+            
+            
             
             <h4>Productos:</h4>
             
