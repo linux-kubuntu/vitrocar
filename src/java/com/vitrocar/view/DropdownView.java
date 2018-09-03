@@ -8,6 +8,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import com.vitrocar.controller.DataBase;
+import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -16,22 +20,60 @@ import javax.faces.context.FacesContext;
 @ManagedBean
 @ViewScoped
 public class DropdownView implements Serializable {
-    private Map<String,Map<String,String>> data = new HashMap<String, Map<String,String>>();
+   private Map<String,Map<String,String>> data = new HashMap<String, Map<String,String>>();
     private String Marca; 
     private String Modelo;
     private String Anio;
     private Map<String,String> Marcas;
     private Map<String,String> Modelos;
     private Map<String,String> Anios;
-     
+    
+    
     @PostConstruct
     public void init() {
-        Marcas  = new HashMap<String, String>();
-        Marcas.put("Audi", "Audi");
-        Marcas.put("Mazda", "Mazda");
-        Marcas.put("BMW", "BMW");
-         
-        Map<String,String> map = new HashMap<String, String>();
+        
+                Marcas  = new HashMap<String, String>();
+                Map<String,String> map = new HashMap<String, String>();
+        
+             DataBase db = new DataBase();
+        
+        try {
+            
+            ResultSet datas = db.Query("SELECT * FROM marca");
+            
+            while(datas.next()){
+                
+               Marcas.put(datas.getString("nombre"),datas.getString("id_marca")); 
+                
+            }
+            
+            ResultSet modelos = db.Query("SELECT id_auto, modelo, id_marca FROM auto");
+            
+            while(modelos.next()){
+                
+               map.put(modelos.getString("modelo"),modelos.getString("id_auto")); 
+               
+               data.put(modelos.getString("id_marca"), map);
+                
+            }
+            
+            
+        } catch (Exception ex) {
+            Logger.getLogger(DropdownView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+
+   
+            /*        Marcas.put("Audi", "Audi");
+            Marcas.put("Mazda", "Mazda");
+            Marcas.put("BMW", "BMW");
+            
+            */
+            
+           
+            
+       
+/*        Map<String,String> map = new HashMap<String, String>();
         map.put("A3", "A3");
         map.put("A6 Sedan", "A6 Sedan");
         map.put("R8", "R8");
@@ -46,7 +88,7 @@ public class DropdownView implements Serializable {
         map = new HashMap<String, String>();
         map.put("M140i", "M140i");
         map.put("M240i", "M240i");
-        map.put("550i", "550i");
+        map.put("550i", "550i");*/
         data.put("BMW", map);
     }
     public Map<String, Map<String, String>> getData() {
@@ -91,8 +133,11 @@ public class DropdownView implements Serializable {
         else
             Modelos = new HashMap<String, String>();
     }
+    
+    
     public void onModeloChange(){
         if(Modelo !=null && !Modelo.equals(""))
+            
             Marcas = data.get(Modelo);
         else
             Marcas = new HashMap<String, String>();
